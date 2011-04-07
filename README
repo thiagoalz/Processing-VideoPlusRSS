@@ -1,0 +1,18 @@
+This is a simple video player, that displays a rss feed scrolling at screen bottom, created with Processing.
+
+==========Dependencies==========
+You need to install Processing (http://processing.org/download/).
+You need to add GSVideo (http://gsvideo.sourceforge.net/).
+
+==========Configuration==========
+You can set video folder and rss url in VideoPlusRSS.pde.
+See default values:
+
+//==============================================
+
+//Set you moovies folder
+String moviesFolder="/tmp/movies";
+//Set your RSS
+String feedurl="http://g1.globo.com/dynamo/tecnologia/rss2.xml";
+
+//==============================================
