@@ -5,13 +5,16 @@ You need to install Processing (http://processing.org/download/).
 You need to add GSVideo (http://gsvideo.sourceforge.net/).
 
 ==========Configuration==========
-You can set video folder in VideoPlusRSS.pde.
+You can set video folder and max itens by feed in VideoPlusRSS.pde.
 See default values:
 
 //==============================================
 
 //Set you moovies folder
 String moviesFolder="/tmp/movies";
+
+//Set Max itens by feed
+int maxItens=10;
 
 //==============================================
 
