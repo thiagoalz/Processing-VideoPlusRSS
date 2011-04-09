@@ -9,15 +9,8 @@ import codeanticode.gsvideo.*;
 GSMovie myMovie;
 PFont font;
 
-//==============================================
-
-//Set you moovies folder
-String moviesFolder="/tmp/movies";
-
-//Set Max itens by feed
-int maxItens=10;
-
-//==============================================
+String moviesFolder;
+int maxItens;
 
 String[] feedssurl;
 FeedReader feed;
@@ -37,6 +30,17 @@ String newline = System.getProperty("line.separator");
 
 
 public void setup() {
+  
+  //==============================================
+
+  //Set you moovies folder
+  moviesFolder=dataPath("movies");
+  
+  //Set Max itens by feed
+  maxItens=10;
+  
+  //==============================================
+  
   size(screenWidth+10, screenHeight+10);
   background(0);
   
@@ -52,7 +56,7 @@ public void setup() {
   
   feedssurl= loadStrings("feeds.config");
 
-  feed=loadNextFeed();
+  loadNextFeed();
 }
 
 public void movieEvent(GSMovie myMovie) {  
@@ -91,7 +95,7 @@ public void draw() {
       xFeed = width;//Volta para o texto para o comeco
       idNoticia++; //Muda para o proximo item do feed atual
       if(idNoticia >= feed.numEntries || idNoticia>=(maxItens-1) ){ //Se ja mostrou todos, ou chegou no limite
-        feed=loadNextFeed();//Recarrega o feed
+        loadNextFeed();//Carrega proximo Feed
       }
     }
     translate(xFeed, 40);    
@@ -99,19 +103,20 @@ public void draw() {
     text(texto, 0, height-80);
     
   }else{
-    feed=loadNextFeed();
+    loadNextFeed();
   }
 }
 
 public String[] getMoviesList(){
    
-  // we'll have a look in the data folder
+  // Load movies folder
+  println(moviesFolder);
   java.io.File folder = new java.io.File(moviesFolder);
    
-  // list the files in the data folder
+  // list the files in it
   String[] filenames = folder.list();
    
-  // display the filenames
+  // display filenames
   println("Lista de Videos");
   for (int i = 0; i < filenames.length; i++) {
     println(filenames[i]);
@@ -129,27 +134,26 @@ void loadNextMovie(){
   myMovie.play();
   
   
-  //movieAtual=(movieAtual+1) % movieList.length; //Lista circular
+  //movieAtual=(movieAtual+1) % movieList.length; //Circular list
   movieAtual=floor(random(0, (movieList.length) )); //Random order
 }
 
 
-public FeedReader loadNextFeed(){
+public void loadNextFeed(){
  
   // load feed
   println("Loading feed: "+feedssurl[feedAtual]);
-  FeedReader nextFeed=new FeedReader(feedssurl[feedAtual]);
+  feed=new FeedReader(feedssurl[feedAtual]);
   feedAtual= (feedAtual +1)%feedssurl.length ;
   idNoticia=0;
   
   // print feed data
-  println("Feed: "+nextFeed.title);
+  println("Feed: "+feed.title);
   println("------------------------------");
-  println("Description: "+nextFeed.description);
-  println("\nNumber of entries: "+nextFeed.numEntries);
+  println("Description: "+feed.description);
+  println("\nNumber of entries: "+feed.numEntries);
+  println("\nWill display: "+maxItens);
   println("------------------------------"); 
-  
-  return nextFeed;
   
 }
 

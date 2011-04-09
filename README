@@ -11,10 +11,10 @@ See default values:
 //==============================================
 
 //Set you moovies folder
-String moviesFolder="/tmp/movies";
+moviesFolder=dataPath("movies");
 
 //Set Max itens by feed
-int maxItens=10;
+maxItens=10;
 
 //==============================================
 
