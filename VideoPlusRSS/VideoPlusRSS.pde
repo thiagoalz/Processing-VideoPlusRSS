@@ -72,7 +72,7 @@ public void draw() {
     try{
       imageMode(CENTER);
       image(myMovie, width/2, height/2);
-    }catch(Exception e){//Rack para arrumar erro estranho
+    }catch(Exception e){//Rack to fix a strange error
       println("Rack de erro");
       e.printStackTrace(); 
     }
@@ -83,19 +83,19 @@ public void draw() {
   }
 
   
-  //Imprime o Texto
-  if(feed.entry!=null){//Se conseguiu Carregar Algo;
+  //Add Text to screen
+  if(feed.entry!=null){//If the feed was loaded
     
     FeedEntry noticiaAtual = feed.entry[idNoticia];
-    String texto="["+feed.title+"]"+noticiaAtual.getTitle();//+newline+noticiaAtual.getDescription();
-    Feedsize=textWidth(texto);//textWidth(noticiaAtual.getDescription());
+    String texto="["+feed.title+"] "+noticiaAtual.getTitle()+".";//+newline+noticiaAtual.getDescription();
+    Feedsize=textWidth(texto);
     
     xFeed = xFeed - passoQuadro; //Incrementa posicao do texto na tela
     if (xFeed < 0 - Feedsize) {//Se chegou ao final
       xFeed = width;//Volta para o texto para o comeco
       idNoticia++; //Muda para o proximo item do feed atual
       if(idNoticia >= feed.numEntries || idNoticia>=(maxItens-1) ){ //Se ja mostrou todos, ou chegou no limite
-        loadNextFeed();//Carrega proximo Feed
+        loadNextFeed();//Load next feed
       }
     }
     translate(xFeed, 40);    
@@ -107,7 +107,10 @@ public void draw() {
   }
 }
 
-public String[] getMoviesList(){
+
+//////////Auxiliar methods//////////
+
+String[] getMoviesList(){
    
   // Load movies folder
   println(moviesFolder);
@@ -117,7 +120,7 @@ public String[] getMoviesList(){
   String[] filenames = folder.list();
    
   // display filenames
-  println("Lista de Videos");
+  println("Video List");
   for (int i = 0; i < filenames.length; i++) {
     println(filenames[i]);
   }
@@ -129,7 +132,7 @@ void loadNextMovie(){
   if(myMovie!=null){
    myMovie.delete(); 
   }
-  println("Carregando Filme:"+moviesFolder+"/"+movieList[movieAtual]);
+  println("Loading Movie:"+moviesFolder+"/"+movieList[movieAtual]);
   myMovie = new GSMovie(this, moviesFolder+"/"+movieList[movieAtual]);
   myMovie.play();
   
@@ -139,7 +142,7 @@ void loadNextMovie(){
 }
 
 
-public void loadNextFeed(){
+void loadNextFeed(){
  
   // load feed
   println("Loading feed: "+feedssurl[feedAtual]);
