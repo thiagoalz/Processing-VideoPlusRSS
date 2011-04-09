@@ -14,6 +14,9 @@ PFont font;
 //Set you moovies folder
 String moviesFolder="/tmp/movies";
 
+//Set Max itens by feed
+int maxItens=10;
+
 //==============================================
 
 String[] feedssurl;
@@ -80,14 +83,14 @@ public void draw() {
   if(feed.entry!=null){//Se conseguiu Carregar Algo;
     
     FeedEntry noticiaAtual = feed.entry[idNoticia];
-    String texto=noticiaAtual.getTitle();//+newline+noticiaAtual.getDescription();
+    String texto="["+feed.title+"]"+noticiaAtual.getTitle();//+newline+noticiaAtual.getDescription();
     Feedsize=textWidth(texto);//textWidth(noticiaAtual.getDescription());
     
     xFeed = xFeed - passoQuadro; //Incrementa posicao do texto na tela
     if (xFeed < 0 - Feedsize) {//Se chegou ao final
       xFeed = width;//Volta para o texto para o comeco
       idNoticia++; //Muda para o proximo item do feed atual
-      if(idNoticia >= feed.numEntries || idNoticia>=9){ //Se ja mostrou todos
+      if(idNoticia >= feed.numEntries || idNoticia>=(maxItens-1) ){ //Se ja mostrou todos, ou chegou no limite
         feed=loadNextFeed();//Recarrega o feed
       }
     }
