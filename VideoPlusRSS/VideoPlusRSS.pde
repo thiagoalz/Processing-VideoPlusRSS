@@ -13,16 +13,15 @@ PFont font;
 
 //Set you moovies folder
 String moviesFolder="/tmp/movies";
-//Set your RSS
-String feedurl="http://g1.globo.com/dynamo/tecnologia/rss2.xml";
 
 //==============================================
 
-
+String[] feedssurl;
 FeedReader feed;
 FeedEntry entryList[];
 
 int feedAtual=0;
+int idNoticia=0;
 float xFeed=width;
 float Feedsize = 0;
 float passoSegundo=500.0;
@@ -47,18 +46,10 @@ public void setup() {
   
   
   ////////////////RSS//////////////////
-
-  // load feed
-  println("Loading feed: "+feedurl);
-  feed=new FeedReader(feedurl);
-
-  // print feed data
-  println("Feed: "+feed.title);
-  println("------------------------------");
-  println("Description: "+feed.description);
-  println("\nNumber of entries: "+feed.numEntries);
-  println("------------------------------");
   
+  feedssurl= loadStrings("feeds.config");
+
+  feed=loadNextFeed();
 }
 
 public void movieEvent(GSMovie myMovie) {  
@@ -88,17 +79,16 @@ public void draw() {
   //Imprime o Texto
   if(feed.entry!=null){//Se conseguiu Carregar Algo;
     
-    FeedEntry noticiaAtual = feed.entry[feedAtual];
+    FeedEntry noticiaAtual = feed.entry[idNoticia];
     String texto=noticiaAtual.getTitle();//+newline+noticiaAtual.getDescription();
     Feedsize=textWidth(texto);//textWidth(noticiaAtual.getDescription());
     
     xFeed = xFeed - passoQuadro; //Incrementa posicao do texto na tela
     if (xFeed < 0 - Feedsize) {//Se chegou ao final
       xFeed = width;//Volta para o texto para o comeco
-      feedAtual= feedAtual+1; //Muda para o proximo item do feed atual
-      if(feedAtual >= feed.numEntries){ //Se ja mostrou todos
-        feed=new FeedReader(feedurl);//Recarrega o feed
-        feedAtual=0;//Volta para o primeiro
+      idNoticia++; //Muda para o proximo item do feed atual
+      if(idNoticia >= feed.numEntries || idNoticia>=9){ //Se ja mostrou todos
+        feed=loadNextFeed();//Recarrega o feed
       }
     }
     translate(xFeed, 40);    
@@ -106,8 +96,7 @@ public void draw() {
     text(texto, 0, height-80);
     
   }else{
-    feed=new FeedReader(feedurl);//Tenta carregar o Feed.
-    feedAtual=0;//Volta para o primeiro
+    feed=loadNextFeed();
   }
 }
 
@@ -139,5 +128,25 @@ void loadNextMovie(){
   
   //movieAtual=(movieAtual+1) % movieList.length; //Lista circular
   movieAtual=floor(random(0, (movieList.length) )); //Random order
+}
+
+
+public FeedReader loadNextFeed(){
+ 
+  // load feed
+  println("Loading feed: "+feedssurl[feedAtual]);
+  FeedReader nextFeed=new FeedReader(feedssurl[feedAtual]);
+  feedAtual= (feedAtual +1)%feedssurl.length ;
+  idNoticia=0;
+  
+  // print feed data
+  println("Feed: "+nextFeed.title);
+  println("------------------------------");
+  println("Description: "+nextFeed.description);
+  println("\nNumber of entries: "+nextFeed.numEntries);
+  println("------------------------------"); 
+  
+  return nextFeed;
+  
 }
 
