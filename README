@@ -9,14 +9,14 @@ You can set video folder and max itens by feed in VideoPlusRSS.pde.
 See default values:
 
 //==============================================
-
-//Set you moovies folder
-moviesFolder=dataPath("movies");
+//Set your data folder
+String dataFolder="path/to/data/folder";
+String moviesFolder=dataFolder+"/videos";
 
 //Set Max itens by feed
-maxItens=10;
-
+int maxItens=10;
 //==============================================
 
 
-URL Feeds can be set at: VideoPlusRSS/data/feeds.config
+URL Feeds can be set at: processingData/feeds.config
+Secondary text can be set at: processingData/promos.config

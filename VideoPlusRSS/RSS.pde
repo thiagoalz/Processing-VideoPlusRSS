@@ -74,7 +74,11 @@ class FeedEntry {
   
   public String getDescription(){
     return description;
-  }  
+  }
+  
+  public Date getDate(){
+    return pubdate;
+  }
   
   public String toString() {
     String s;
